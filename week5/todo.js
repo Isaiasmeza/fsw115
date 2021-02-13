@@ -1,5 +1,4 @@
-let chores = document.getElementById("todos")
-
+let chores = document.getElementById("chores")
 let getChores = function () {axios.get("https://api.vschool.io/isaiasmeza/todo")
 
 .then(res => {
@@ -14,7 +13,7 @@ let getChores = function () {axios.get("https://api.vschool.io/isaiasmeza/todo")
     item.setAttribute("id", "item")
     item.classList.add("checkBox")
     button.textContent = "x"
-    button.classList.add("del")
+    button.classList.add("delete")
     item.onchange = update
     li.innerHTML = res.data[i].title
     li.innetHTML = res.data[i].Description
@@ -28,6 +27,7 @@ let getChores = function () {axios.get("https://api.vschool.io/isaiasmeza/todo")
     }
 
     li.append(item)
+
     li.append(button)
     chores.appendChild(li)
   }
@@ -39,7 +39,7 @@ getChores()
 
 
 chores.addEventListener("click", function (e){
-    let delButton = document.getElementsByClassName("del")
+    let delButton = document.getElementsByClassName("delete")
     for(i=0; i<delButton.length; i++){
       if(e.target == delButton[i]){
         let del = delButton[i].parentNode
@@ -57,14 +57,13 @@ let update = (e) =>{
   if(checkbox[i].type === "checkbox"){    
       if (e.target == checkbox[i]){
               
-                let check = checkbox[i].parentNode
-                if (checkbox[i].checked){
-                  check.style.textDecoration='line-through'
-                }  
-                
-                let id = check.id
-                let select = {
-                  completed: checkbox[i].checked
+   let check = checkbox[i].parentNode
+        if (checkbox[i].checked){
+            check.style.textDecoration='line-through'
+            }                
+         let id = check.id
+         let select = {
+         completed: checkbox[i].checked
                 }
                 axios.put(`https://api.vschool.io/isaiasmeza/todo/${id}`, select)
     }
@@ -75,13 +74,13 @@ form.addEventListener("submit", function (e){
   e.preventDefault()
   let title = form.title.value
   let Description = form.Description.value
-  let newTodo ={
+  let Todo ={
     Description:Description,
     title: title}
     
 
   
-  axios.post("https://api.vschool.io/isaiasmeza/todo", newTodo)
+  axios.post("https://api.vschool.io/isaiasmeza/todo", Todo)
       .then(getChores)
       .catch(()=> console.log("error"))
     
